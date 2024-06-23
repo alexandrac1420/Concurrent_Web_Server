@@ -78,11 +78,11 @@ You need to install the following tools and configure their dependencies:
     ```
     When running the application, the following message should appear
 
-    ![alt text](image-3.png)
+    ![alt text](https://github.com/alexandrac1420/Concurrent_Web_Server/blob/master/Pictures/image-3.png)
 
     And now you can access index.html and the .jpg image.
     
-    ![alt text](image-4.png)
+    ![alt text](https://github.com/alexandrac1420/Concurrent_Web_Server/blob/master/Pictures/image-4.png)
 
     
 ## Test Report - MeanStdDevCalculator
@@ -105,7 +105,7 @@ This report outlines the unit tests conducted for the Concurrent Web Server proj
    - **Expected Behavior**: The server should respond with HTTP/1.1 200 OK and appropriate Content-Type headers for index.html.
    - **Verification**: Confirms that all client threads receive the correct response with the expected content.
 
-![Tests Result](image.png)
+![Tests Result](https://github.com/alexandrac1420/Concurrent_Web_Server/blob/master/Pictures/image.png)
 
 ## Design 
 
@@ -119,7 +119,7 @@ Alexandra Cortes Tovar
 22/06/2024
 
 ### Class Diagram
-![Class Diagram](image-2.png)
+![Class Diagram](https://github.com/alexandrac1420/Concurrent_Web_Server/blob/master/Pictures/image-2.png)
 
 ### Description of Class Diagram
 
