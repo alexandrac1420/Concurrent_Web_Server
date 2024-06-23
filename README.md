@@ -67,8 +67,8 @@ You need to install the following tools and configure their dependencies:
 
     Should display output similar to:
     ```sh
-    [INFO] --- jar:3.2.0:jar (default-jar) @ Concurrencia ---
-    [INFO] Building jar: C:\Users\alexa\Downloads\Ejemplo\MeanStdDevCalculator\target\Concurrencia-1.0-SNAPSHOT.jar
+    [INFO] --- jar:3.3.0:jar (default-jar) @ Concurrencia ---
+    [INFO] Building jar: C:\Users\alexa\Concurrencia\target\Concurrencia-1.0-SNAPSHOT.jar
     [INFO] BUILD SUCCESS
     ```
 
@@ -76,7 +76,15 @@ You need to install the following tools and configure their dependencies:
     ```sh
     java -cp target/Concurrencia-1.0-SNAPSHOT.jar edu.escuelaing.arsw.HttpServer_Exercise6Concurrent
     ```
- 
+    When running the application, the following message should appear
+
+    ![alt text](image-3.png)
+
+    And now you can access index.html and the .jpg image.
+    
+    ![alt text](image-4.png)
+
+    
 ## Test Report - MeanStdDevCalculator
 
 ### Author
@@ -97,11 +105,12 @@ This report outlines the unit tests conducted for the Concurrent Web Server proj
    - **Expected Behavior**: The server should respond with HTTP/1.1 200 OK and appropriate Content-Type headers for index.html.
    - **Verification**: Confirms that all client threads receive the correct response with the expected content.
 
+![Tests Result](image.png)
 
 ## Design 
 
 ### Title
-MeanStdDevCalculator
+Concurrent Web Server
 
 ### Author
 Alexandra Cortes Tovar
@@ -110,19 +119,26 @@ Alexandra Cortes Tovar
 22/06/2024
 
 ### Class Diagram
-
+![Class Diagram](image-2.png)
 
 ### Description of Class Diagram
 
-#### Class `MeanStdDevCalculator`
-- **Description**: This class handles reading from a file and calculating the mean and standard deviation for multiple tables of numeric data.
+#### Class `HttpServer_Exercise6Concurrent`
+- **Description**: This class represents the concurrent HTTP server.
 - **Operations**:
-  - `public static void main(String[] args)`: Main method that initiates the program. It reads the file, processes each table of data, and calculates the mean and standard deviation.
-  - `private static void processTable(LinkedList<Double> numbers, int tableNumber)`: Private method that processes each table of data, calculating and printing the mean and standard deviation.
+  - `public static void startServer(int port)`: Starts the server on the given port, accepting client connections and processing them using a thread pool.
+  - `public static void stopServer()`: Stops the server and shuts down the thread pool.
+  - `public static void main(String[] args)`: Main method that starts the server, calling the `startServer` method with a predefined port.
 
+#### Class `ClientHandler`
+- **Description**: This class handles individual client requests.
+- **Operations**:
+  - `public ClientHandler(Socket clientSocket)`: Constructor that initializes the client socket.
+  - `public void run()`: Method that runs the client request handling logic.
+  - `private void handleRequest(Socket clientSocket)`: Private method that processes the HTTP request and sends the appropriate response.
 
 #### Relationships Between Classes
-- `LinkedList<T>` has an aggregation relationship with `Node<T>` because it contains instances of `Node<T>`. `MeanCalculator` and `StdDevCalculator` are interfaces that define methods for calculating the mean and standard deviation respectively. These interfaces are implemented by concrete classes that provide the implementation of the calculate methods. `MeanStdDevCalculator` uses instances of `MeanCalculator` and `StdDevCalculator` to perform calculations. Additionally, `MeanStdDevCalculator` uses `LinkedList<Double>` to store and process numbers.
+- `HttpServer_Exercise6Concurrent` has an use relationship with `ClientHandler` because it creates instances of `ClientHandler` to handle client requests.The instances are executed via the `executorService` to manage multiple client connections concurrently.
 
 ## Built With
 

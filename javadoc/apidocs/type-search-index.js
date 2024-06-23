@@ -1,0 +1,1 @@
+typeSearchIndex = [{"l":"All Classes and Interfaces","u":"allclasses-index.html"},{"p":"edu.escuelaing.arsw","l":"ClientHandler"},{"p":"edu.escuelaing.arsw","l":"HttpServer_Exercise6Concurrent"}];updateSearchResults();

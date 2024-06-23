@@ -7,6 +7,7 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
+import java.util.concurrent.TimeUnit;
 
 public class ConcurrentWebServerTest extends TestCase {
 
@@ -20,23 +21,21 @@ public class ConcurrentWebServerTest extends TestCase {
         super.setUp();
         executorService = Executors.newFixedThreadPool(NUMBER_OF_CLIENTS);
 
-        // Inicia el servidor web en un hilo separado
         new Thread(() -> {
             try {
                 HttpServer_Exercise6Concurrent.startServer(PORT);
             } catch (Exception e) {
                 e.printStackTrace();
             }
-            
         }).start();
 
-        // Espera un poco para asegurarte de que el servidor esté en funcionamiento
         Thread.sleep(1000);
     }
 
     protected void tearDown() throws Exception {
         super.tearDown();
         executorService.shutdownNow();
+        HttpServer_Exercise6Concurrent.stopServer();
     }
 
     public void testConcurrentRequests() throws IOException {
@@ -61,7 +60,7 @@ public class ConcurrentWebServerTest extends TestCase {
 
                     assertTrue(response.toString().contains("HTTP/1.1 200 OK"));
                     assertTrue(response.toString().contains("Content-Type: "));
-                    assertTrue(response.toString().contains("index.hl"));
+                    assertTrue(response.toString().contains("index.html"));
 
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -69,15 +68,13 @@ public class ConcurrentWebServerTest extends TestCase {
             });
         }
 
-        while (!executorService.isTerminated()) {
-            try {
-                Thread.sleep(100); // Espera a que terminen todos los clientes
-            } catch (InterruptedException e) {
-                // Maneja la interrupción aquí, ya sea lanzando nuevamente la excepción,
-                // haciendo alguna acción específica o saliendo del bucle.
-                e.printStackTrace(); // Opcionalmente, imprime el stack trace para depurar.
-                Thread.currentThread().interrupt(); // Restaura el estado interrupt para mantener la coherencia
+        executorService.shutdown();
+        try {
+            if (!executorService.awaitTermination(60, TimeUnit.SECONDS)) {
+                executorService.shutdownNow();
             }
-        }        
+        } catch (InterruptedException e) {
+            executorService.shutdownNow();
+        }
     }
 }
